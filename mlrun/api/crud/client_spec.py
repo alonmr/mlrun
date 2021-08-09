@@ -24,7 +24,7 @@ class ClientSpec(metaclass=mlrun.utils.singleton.Singleton,):
             kfp_image=config.kfp_image,
             dask_kfp_image=config.dask_kfp_image,
             api_url=config.httpdb.api_url,
-            nuclio_version=self._resolve_nuclio_version(),
+            nuclio_version='self._resolve_nuclio_version()',
             # These have a default value, therefore we want to send them only if their value is not the default one
             # (otherwise clients don't know when to use server value and when to use client value)
             ui_projects_prefix=self._get_config_value_if_not_default(
