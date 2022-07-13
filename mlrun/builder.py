@@ -279,7 +279,7 @@ def build_image(
     elif dest.startswith(IMAGE_NAME_ENRICH_REGISTRY_PREFIX):
         dest = dest[1:]
         registry, _ = get_parsed_docker_registry()
-        secret_name = secret_name or config.httpdb.builder.docker_registry_secret
+        secret_name = secret_name or config.function.spec.image_pull_secret.default
         if not registry:
             raise ValueError(
                 "Default docker registry is not defined, set "
