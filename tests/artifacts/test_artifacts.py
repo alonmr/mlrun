@@ -36,7 +36,7 @@ def test_artifacts_export_required_fields():
     for artifact_class in artifact_classes:
         for required_field in required_fields:
             assert required_field in artifact_class._dict_fields
-        dummy_artifact = artifact_class()
+        dummy_artifact = artifact_class("key")
         for required_metadata_field in required_metadata_fields:
             assert required_metadata_field in dummy_artifact.metadata._dict_fields
         for required_spec_field in required_spec_fields:

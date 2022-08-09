@@ -120,6 +120,7 @@ def get_kfp_outputs(artifacts, labels, project):
             # of if/else in the rest of this function.
             output_spec = output
         else:
+            print(output)
             key = output.get("metadata")["key"]
             output_spec = output.get("spec", {})
 

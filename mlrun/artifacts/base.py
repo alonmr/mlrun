@@ -40,7 +40,7 @@ class ArtifactMetadata(ModelObj):
 
     def __init__(
         self,
-        key=None,
+        key,
         project=None,
         iter=None,
         tree=None,
@@ -168,7 +168,7 @@ class Artifact(ModelObj):
 
     def __init__(
         self,
-        key=None,
+        key,
         body=None,
         viewer=None,
         is_inline=False,
@@ -837,7 +837,7 @@ class LinkArtifact(Artifact):
 
     def __init__(
         self,
-        key=None,
+        key,
         target_path="",
         link_iteration=None,
         link_key=None,
