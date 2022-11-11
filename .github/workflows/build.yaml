@@ -31,7 +31,7 @@ on:
       docker_repo:
         description: 'Docker repo to push images to (default: lowercase github repository owner name)'
         required: false
-        default: 'mallonn'
+        default: ''
       version:
         description: 'The version to build, without prefix v (e.g. 1.1.0), if not provided version will be <unstable-version-prefix>-<commit-hash>, where <unstable-version-prefix> is taken from automation/version/unstable_version_prefix'
         required: false
@@ -94,7 +94,7 @@ jobs:
           echo ${input_mlrun_version:-`echo $default_mlrun_version`})"
         echo "::set-output name=mlrun_docker_repo::$( \
           input_docker_repo=${{ github.event.inputs.docker_repo }} && \
-          default_docker_repo=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]') && \
+          default_docker_repo=$(echo mallonn | tr '[:upper:]' '[:lower:]') && \
           echo ${input_docker_repo:-`echo $default_docker_repo`})"
         echo "::set-output name=mlrun_docker_registries::$( \
           input_docker_registries=${{ github.event.inputs.docker_registries }} && \
