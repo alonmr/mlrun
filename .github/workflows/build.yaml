@@ -19,6 +19,7 @@ on:
   push:
     branches:
     - development
+    - test-build-ci-without-gpu
     - '[0-9]+.[0-9]+.x'
 
   workflow_dispatch:
@@ -26,7 +27,7 @@ on:
       docker_registries:
         description: 'Comma separated list of docker registries to push images to (default: ghcr.io/, use registry.hub.docker.com/ for docker hub)'
         required: true
-        default: 'ghcr.io/'
+        default: 'registry.hub.docker.com/'
       docker_repo:
         description: 'Docker repo to push images to (default: lowercase github repository owner name)'
         required: false
@@ -61,7 +62,7 @@ jobs:
     needs: matrix_prep
 
     # let's not run this on every fork, change to your fork when developing
-    if: github.repository == 'mlrun/mlrun' || github.event_name == 'workflow_dispatch'
+    if: github.repository == 'AlonMaor14/mlrun' || github.event_name == 'workflow_dispatch'
 
     strategy:
       fail-fast: false
@@ -102,13 +103,8 @@ jobs:
     - name: Docker login
       # all suffixed with "| true" to allow failures if secrets are not defined (fork)
       run: |
-        echo ${{ secrets.GHCR_DOCKER_REGISTRY_PASSWORD }} | \
-          docker login ghcr.io -u ${{ secrets.GHCR_DOCKER_REGISTRY_USERNAME }} --password-stdin | true
         echo ${{ secrets.DOCKER_HUB_DOCKER_REGISTRY_PASSWORD }} | \
           docker login registry.hub.docker.com -u ${{ secrets.DOCKER_HUB_DOCKER_REGISTRY_USERNAME }} \
-          --password-stdin | true
-        echo ${{ secrets.QUAY_IO_DOCKER_REGISTRY_PASSWORD }} | \
-          docker login quay.io -u ${{ secrets.QUAY_IO_DOCKER_REGISTRY_USERNAME }} \
           --password-stdin | true
 
     - name: Pull cache, build and push image
