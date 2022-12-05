@@ -19,6 +19,7 @@ from distutils.util import strtobool
 from http import HTTPStatus
 from typing import List, Optional
 
+import nuclio.utils
 import v3io
 import v3io.dataplane
 from fastapi import (
@@ -585,6 +586,16 @@ def _build_function(
             )
         fn.save(versioned=True)
         logger.info("Fn:\n %s", fn.to_yaml())
+
+    except nuclio.utils.DeployError as err:
+        logger.error(traceback.format_exc())
+        status_code = HTTPStatus.BAD_REQUEST.value
+        reason = f"runtime error: {err}"
+        if getattr(err, "err", None):
+            status_code = err.err.response.status_code
+            reason = err.err.response.body
+        log_and_raise(status_code, reason=reason)
+
     except Exception as err:
         logger.error(traceback.format_exc())
         log_and_raise(HTTPStatus.BAD_REQUEST.value, reason=f"runtime error: {err}")
