@@ -590,7 +590,7 @@ def _build_function(
     except nuclio.utils.DeployError as err:
         logger.error(traceback.format_exc())
         status_code = HTTPStatus.BAD_REQUEST.value
-        reason = f"runtime error: {err}"
+        reason = f"DeployError runtime error: {err}"
         if getattr(err, "err", None):
             status_code = err.err.response.status_code
             reason = err.err.response.body
