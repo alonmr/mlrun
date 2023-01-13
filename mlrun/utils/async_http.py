@@ -138,7 +138,7 @@ class _CustomRequestContext(_RequestContext):
                 ] = await self._request_func(
                     params.method,
                     params.url,
-                    headers=params.headers,
+                    headers=params.headers or {},
                     trace_request_ctx={
                         "current_attempt": current_attempt,
                         **(params.trace_request_ctx or {}),
