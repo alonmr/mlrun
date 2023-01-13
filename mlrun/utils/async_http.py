@@ -133,15 +133,13 @@ class _CustomRequestContext(_RequestContext):
                 except IndexError:
                     params = self._params_list[-1]
 
-                headers = params.headers
-                self._logger.info("Headers", headers=headers)
-
+                headers = {k: v for k, v in params.headers.items() if v is not None}
                 response: typing.Optional[
                     aiohttp.ClientResponse
                 ] = await self._request_func(
                     params.method,
                     params.url,
-                    headers=params.headers or {},
+                    headers=headers,
                     trace_request_ctx={
                         "current_attempt": current_attempt,
                         **(params.trace_request_ctx or {}),
