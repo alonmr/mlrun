@@ -1002,8 +1002,8 @@ class MLClientCtx(object):
         if commit or self._autocommit:
             self._commit = message
             if self._rundb:
-                self._rundb.update_run(
-                    self._get_updates(), self._uid, self.project, iter=self._iteration
+                self._rundb.store_run(
+                    self.to_dict(), self._uid, self.project, iter=self._iteration
                 )
 
     def _merge_tmpfile(self):
