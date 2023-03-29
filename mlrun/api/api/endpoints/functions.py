@@ -113,14 +113,6 @@ async def get_function(
     auth_info: mlrun.api.schemas.AuthInfo = Depends(deps.authenticate_request),
     db_session: Session = Depends(deps.get_db_session),
 ):
-    await mlrun.api.utils.auth.verifier.AuthVerifier().query_project_resource_permissions(
-        mlrun.api.schemas.AuthorizationResourceTypes.function,
-        project,
-        name,
-        mlrun.api.schemas.AuthorizationAction.read,
-        auth_info,
-    )
-
     func = await run_in_threadpool(
         mlrun.api.crud.Functions().get_function,
         db_session,
@@ -128,6 +120,14 @@ async def get_function(
         project,
         tag,
         hash_key,
+    )
+
+    await mlrun.api.utils.auth.verifier.AuthVerifier().query_project_resource_permissions(
+        mlrun.api.schemas.AuthorizationResourceTypes.function,
+        project,
+        name,
+        mlrun.api.schemas.AuthorizationAction.read,
+        auth_info,
     )
     return {
         "func": func,
