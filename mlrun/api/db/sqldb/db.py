@@ -998,6 +998,7 @@ class SQLDB(DBInterface):
                     session, Function, project, function_name, computed_tag
                 )
                 if tag_function_uid is not None:
+                    name = function_name
                     break
 
             if tag_function_uid is None:
