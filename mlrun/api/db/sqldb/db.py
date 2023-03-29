@@ -983,21 +983,31 @@ class SQLDB(DBInterface):
 
     def get_function(self, session, name, project="", tag="", hash_key=""):
         project = project or config.default_project
-        query = self._query(session, Function, name=name, project=project)
         computed_tag = tag or "latest"
         tag_function_uid = None
         if not tag and hash_key:
             uid = hash_key
         else:
-            tag_function_uid = self._resolve_class_tag_uid(
-                session, Function, project, name, computed_tag
-            )
+            function_names = [name]
+            if "_" in name:
+                # TODO: remove when we drop support for function names with underscore
+                function_names.append(mlrun.utils.normalize_name(name))
+
+            for function_name in function_names:
+                tag_function_uid = self._resolve_class_tag_uid(
+                    session, Function, project, function_name, computed_tag
+                )
+                if tag_function_uid is not None:
+                    break
+
             if tag_function_uid is None:
                 function_uri = generate_object_uri(project, name, tag)
                 raise mlrun.errors.MLRunNotFoundError(
                     f"Function tag not found {function_uri}"
                 )
             uid = tag_function_uid
+
+        query = self._query(session, Function, name=name, project=project)
         if uid:
             query = query.filter(Function.uid == uid)
         obj = query.one_or_none()
