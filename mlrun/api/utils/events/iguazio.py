@@ -155,7 +155,7 @@ class Client(mlrun.api.utils.events.base.BaseEventClient):
         return igz_mgmt.schemas.manual_events.ManualEventSchema(
             source=self.source,
             kind=PROJECT_SECRET_UPDATED,
-            description=f"Updated secret keys {normalized_secret_keys} of project secret {secret_name} "
+            description=f"Updated project secret {secret_name} with secret keys {normalized_secret_keys} "
             f"for project {project}",
             severity=igz_mgmt.constants.EventSeverity.info,
             classification=igz_mgmt.constants.EventClassification.security,
