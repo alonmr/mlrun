@@ -775,6 +775,7 @@ class ParquetTarget(BaseStoreTarget):
         df.columns = [str(column) for column in df.columns.tolist()]
         df.to_parquet(
             target_path,
+            index=True,
             partition_cols=partition_cols,
             storage_options=storage_options,
             **kwargs,
