@@ -158,14 +158,14 @@ class DatasetArtifact(Artifact):
         self.column_metadata = column_metadata or {}
         self.spec.label_column = label_column
 
-        if df is not None:
-            if hasattr(df, "dask"):
-                # If df is a Dask DataFrame, and it's small in-memory, convert to Pandas
-                if (df.memory_usage(deep=True).sum().compute() / 1e9) < max_ddf_size:
-                    df = df.compute()
-            self.update_preview_fields_from_df(
-                self, df, stats, preview, ignore_preview_limits
-            )
+        # if df is not None:
+        #     if hasattr(df, "dask"):
+        #         # If df is a Dask DataFrame, and it's small in-memory, convert to Pandas
+        #         if (df.memory_usage(deep=True).sum().compute() / 1e9) < max_ddf_size:
+        #             df = df.compute()
+        #     self.update_preview_fields_from_df(
+        #         self, df, stats, preview, ignore_preview_limits
+        #     )
 
         self._df = df
         self._kw = kwargs
