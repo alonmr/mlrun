@@ -62,6 +62,7 @@ extensions = [
     "sphinx_togglebutton",
     "sphinx_design",
     "sphinx_reredirects",
+    'sphinx_search.extension',
     "versionwarning.extension",
 ]
 
