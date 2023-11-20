@@ -36,4 +36,4 @@ python:
 search:
   ranking:
     '*.html': 10
-    '*.py': 0
+    'api/*': 1
