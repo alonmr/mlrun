@@ -23,6 +23,7 @@ build:
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
   configuration: docs/conf.py
+  clean: true
 
 formats: all
 
@@ -35,5 +36,4 @@ python:
 
 search:
   ranking:
-    '*.html': 10
-    'api/*': 1
+    'api/*': -1
