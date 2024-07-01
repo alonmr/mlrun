@@ -1,3 +1,4 @@
+#!/bin/bash
 # Copyright 2024 Iguazio
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +24,8 @@
  |                                                                                                                   |
  +-------------------------------------------------------------------------------------------------------------------+
 '
+
+set -e
 
 # Lower case the MLRUN_MEMRAY env var
 MLRUN_MEMRAY_LOWER=$(echo "$MLRUN_MEMRAY" | tr '[:upper:]' '[:lower:]')

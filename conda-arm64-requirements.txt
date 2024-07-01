@@ -1,5 +1,2 @@
-# required for v3io client, see docs/requirements.txt for the constraint
-protobuf>=3.20.3, <4
-
 # see requirements.txt for the constraint
 pyyaml>=5.4.1, <7
