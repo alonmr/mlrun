@@ -24,6 +24,7 @@ mapped to config.httpdb.port. Values should be in JSON format.
 import base64
 import binascii
 import copy
+import datetime
 import json
 import os
 import typing
@@ -1397,9 +1398,7 @@ def _populate(skip_errors=False):
     populate will run only once, after first call it does nothing.
     """
     global _loaded
-    mlrun.utils.logger.debug(
-        "Loading configuration from environment variables and config file"
-    )
+    print("Loading configuration from environment variables and config file")
     with _load_lock:
         _do_populate(skip_errors=skip_errors)
 
@@ -1410,29 +1409,38 @@ def _do_populate(env=None, skip_errors=False):
     if not os.environ.get("MLRUN_IGNORE_ENV_FILE"):
         if "MLRUN_ENV_FILE" in os.environ:
             env_file = os.path.expanduser(os.environ["MLRUN_ENV_FILE"])
-            mlrun.utils.logger.debug(
-                f"Loading configuration from environment file: {env_file}"
+            print(
+                f"{datetime.datetime.now().isoformat()}:Loading configuration from environment file: {env_file}"
             )
+            print(datetime.datetime.now().isoformat())
             dotenv.load_dotenv(env_file, override=True)
         else:
             env_file = os.path.expanduser(default_env_file)
-            mlrun.utils.logger.debug(
-                f"Loading configuration from default environment file: {env_file}"
+            print(
+                f"{datetime.datetime.now().isoformat()}:Loading configuration from default environment file: {env_file}"
             )
+
             if os.path.isfile(env_file):
                 dotenv.load_dotenv(env_file, override=True)
 
     if not config:
-        mlrun.utils.logger.debug("Loading default configuration from mlrun/config.py")
+        print(
+            f"{datetime.datetime.now().isoformat()}:Loading default configuration from mlrun/config.py"
+        )
+
         config = Config.from_dict(default_config)
     else:
-        mlrun.utils.logger.debug("Updating configuration from mlrun/config.py")
+        print(
+            f"{datetime.datetime.now().isoformat()}:Updating configuration from mlrun/config.py"
+        )
+
         config.update(default_config)
     config_path = os.environ.get(env_file_key)
     if config_path:
-        mlrun.utils.logger.debug(
-            f"Loading configuration from config file: {config_path}"
+        print(
+            f"{datetime.datetime.now().isoformat()}:Loading configuration from config file: {config_path}"
         )
+
         with open(config_path) as fp:
             data = yaml.safe_load(fp)
 
@@ -1441,21 +1449,26 @@ def _do_populate(env=None, skip_errors=False):
 
         config.update(data, skip_errors=skip_errors)
 
-    mlrun.utils.logger.debug("Loading configuration from environment variables")
+    print(
+        f"{datetime.datetime.now().isoformat()}:Loading configuration from environment variables"
+    )
+
     data = read_env(env)
     if data:
-        mlrun.utils.logger.debug(
-            f"Updating configuration from environment variables: {data}"
+        print(
+            f"{datetime.datetime.now().isoformat()}: Updating configuration from environment variables: {data}"
         )
+
         config.update(data, skip_errors=skip_errors)
 
     _configure_ssl_verification(config.httpdb.http.verify)
     _validate_config(config)
-    mlrun.utils.logger.debug("Configuration loaded successfully")
+    print(f"{datetime.datetime.now().isoformat()}: Configuration loaded successfully")
 
 
 def _validate_config(config):
-    mlrun.utils.logger.debug("Validating configuration")
+    print(f"{datetime.datetime.now().isoformat()}: Validating configuration")
+
     try:
         limits_gpu = config.default_function_pod_resources.limits.gpu
         requests_gpu = config.default_function_pod_resources.requests.gpu
@@ -1505,7 +1518,7 @@ def _convert_resources_to_str(config: typing.Optional[dict] = None):
 
 def _configure_ssl_verification(verify_ssl: bool) -> None:
     """Configure SSL verification warnings based on the setting."""
-    mlrun.utils.logger.debug(f"Configuring SSL verification. verify_ssl={verify_ssl}")
+    pront(f"Configuring SSL verification. verify_ssl={verify_ssl}")
     if not verify_ssl:
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     else:
