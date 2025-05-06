@@ -1398,7 +1398,9 @@ def _populate(skip_errors=False):
     populate will run only once, after first call it does nothing.
     """
     global _loaded
-    print("Loading configuration from environment variables and config file")
+    print(
+        f"{datetime.datetime.now().isoformat()}: Loading configuration from environment variables and config file"
+    )
     with _load_lock:
         _do_populate(skip_errors=skip_errors)
 
@@ -1410,14 +1412,14 @@ def _do_populate(env=None, skip_errors=False):
         if "MLRUN_ENV_FILE" in os.environ:
             env_file = os.path.expanduser(os.environ["MLRUN_ENV_FILE"])
             print(
-                f"{datetime.datetime.now().isoformat()}:Loading configuration from environment file: {env_file}"
+                f"{datetime.datetime.now().isoformat()}: Loading configuration from environment file: {env_file}"
             )
             print(datetime.datetime.now().isoformat())
             dotenv.load_dotenv(env_file, override=True)
         else:
             env_file = os.path.expanduser(default_env_file)
             print(
-                f"{datetime.datetime.now().isoformat()}:Loading configuration from default environment file: {env_file}"
+                f"{datetime.datetime.now().isoformat()}: Loading configuration from default environment file: {env_file}"
             )
 
             if os.path.isfile(env_file):
@@ -1425,20 +1427,20 @@ def _do_populate(env=None, skip_errors=False):
 
     if not config:
         print(
-            f"{datetime.datetime.now().isoformat()}:Loading default configuration from mlrun/config.py"
+            f"{datetime.datetime.now().isoformat()}: Loading default configuration from mlrun/config.py"
         )
 
         config = Config.from_dict(default_config)
     else:
         print(
-            f"{datetime.datetime.now().isoformat()}:Updating configuration from mlrun/config.py"
+            f"{datetime.datetime.now().isoformat()}: Updating configuration from mlrun/config.py"
         )
 
         config.update(default_config)
     config_path = os.environ.get(env_file_key)
     if config_path:
         print(
-            f"{datetime.datetime.now().isoformat()}:Loading configuration from config file: {config_path}"
+            f"{datetime.datetime.now().isoformat()}: Loading configuration from config file: {config_path}"
         )
 
         with open(config_path) as fp:
@@ -1450,7 +1452,7 @@ def _do_populate(env=None, skip_errors=False):
         config.update(data, skip_errors=skip_errors)
 
     print(
-        f"{datetime.datetime.now().isoformat()}:Loading configuration from environment variables"
+        f"{datetime.datetime.now().isoformat()}: Loading configuration from environment variables"
     )
 
     data = read_env(env)
@@ -1518,7 +1520,9 @@ def _convert_resources_to_str(config: typing.Optional[dict] = None):
 
 def _configure_ssl_verification(verify_ssl: bool) -> None:
     """Configure SSL verification warnings based on the setting."""
-    pront(f"Configuring SSL verification. verify_ssl={verify_ssl}")
+    print(
+        f"{datetime.datetime.now().isoformat()}: Configuring SSL verification. verify_ssl={verify_ssl}"
+    )
     if not verify_ssl:
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     else:
