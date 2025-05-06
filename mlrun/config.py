@@ -943,14 +943,14 @@ class Config:
             #                 ) from exc
             #             raise exc
             #     else:
-            #         try:
-            #             setattr(self, key, value)
-            #         except mlrun.errors.MLRunRuntimeError as exc:
-            #             if not skip_errors:
-            #                 raise exc
-            #             print(
-            #                 f"Warning, failed to set config key {key}={value}, {mlrun.errors.err_to_str(exc)}"
-            #             )
+            try:
+                setattr(self, key, value)
+            except mlrun.errors.MLRunRuntimeError as exc:
+                if not skip_errors:
+                    raise exc
+                print(
+                    f"Warning, failed to set config key {key}={value}, {mlrun.errors.err_to_str(exc)}"
+                )
 
     def dump_yaml(self, stream=None):
         return yaml.dump(self._cfg, stream, default_flow_style=False)
