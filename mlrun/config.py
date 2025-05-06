@@ -932,15 +932,15 @@ class Config:
                     # raise the exception to ensure configuration is loaded correctly and do not
                     # ignore any errors.
                     config_value = getattr(self, key)
-                    try:
-                        config_value.update(value)
-                    except AttributeError as exc:
-                        if not isinstance(config_value, (dict, Config)):
-                            raise ValueError(
-                                f"Can not update `{key}` config. "
-                                f"Expected a configuration but received {type(value)}"
-                            ) from exc
-                        raise exc
+                    # try:
+                    #     config_value.update(value)
+                    # except AttributeError as exc:
+                    #     if not isinstance(config_value, (dict, Config)):
+                    #         raise ValueError(
+                    #             f"Can not update `{key}` config. "
+                    #             f"Expected a configuration but received {type(value)}"
+                    #         ) from exc
+                    #     raise exc
                 else:
                     try:
                         setattr(self, key, value)
