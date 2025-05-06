@@ -1235,6 +1235,9 @@ class Config:
     def version(self):
         # importing here to avoid circular dependency
         from mlrun.utils.version import Version
+        print(
+            f"{datetime.datetime.now()}: Loading version"
+        )
 
         return Version().get()["version"]
 
@@ -1255,6 +1258,9 @@ class Config:
         if value:
             # importing here to avoid circular dependency
             import mlrun.db
+            print(
+                f"{datetime.datetime.now()}: Loading dbpath {value}"
+            )
 
             # It ensures that SSL verification is set before establishing a connection
             _configure_ssl_verification(self.httpdb.http.verify)
@@ -1419,7 +1425,6 @@ def _do_populate(env=None, skip_errors=False):
             print(
                 f"{datetime.datetime.now().isoformat()}: Loading configuration from environment file: {env_file}"
             )
-            print(datetime.datetime.now().isoformat())
             dotenv.load_dotenv(env_file, override=True)
         else:
             env_file = os.path.expanduser(default_env_file)
@@ -1647,4 +1652,4 @@ def read_env(env=None, prefix=env_prefix):
 
 # populate config, skip errors when setting the config attributes and issue warnings instead
 # this is to avoid failure when doing `import mlrun` and the dbpath (API service) is incorrect or down
-_populate(skip_errors=False)
+_populate(skip_errors=True)
