@@ -1405,6 +1405,10 @@ def _populate(skip_errors=False):
     with _load_lock:
         _do_populate(skip_errors=skip_errors)
 
+    print(
+        f"{datetime.datetime.now().isoformat()}: Configuration loaded successfully"
+    )
+
 
 def _do_populate(env=None, skip_errors=False):
     global config
@@ -1643,4 +1647,4 @@ def read_env(env=None, prefix=env_prefix):
 
 # populate config, skip errors when setting the config attributes and issue warnings instead
 # this is to avoid failure when doing `import mlrun` and the dbpath (API service) is incorrect or down
-_populate(skip_errors=True)
+_populate(skip_errors=False)
