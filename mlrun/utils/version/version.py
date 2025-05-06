@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import datetime
 import json
 import sys
 from importlib.resources import read_text
@@ -35,7 +36,13 @@ class Version(metaclass=Singleton):
         # When installing un-released version (e.g. by doing pip install git+https://github.com/mlrun/mlrun@development)
         # it won't have a version file, so adding some sane defaults
         self.version_info = {"git_commit": "unknown", "version": "0.0.0+unstable"}
+        print(
+            f"{datetime.datetime.now()}: Loading python version"
+        )
         self.python_version = self._resolve_python_version()
+        print(
+            f"{datetime.datetime.now()}: Loading mlrun version"
+        )
         try:
             self.version_info = json.loads(
                 read_text("mlrun.utils.version", "version.json")

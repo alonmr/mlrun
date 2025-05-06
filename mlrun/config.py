@@ -1235,9 +1235,6 @@ class Config:
     def version(self):
         # importing here to avoid circular dependency
         from mlrun.utils.version import Version
-        print(
-            f"{datetime.datetime.now()}: Loading version"
-        )
 
         return Version().get()["version"]
 
@@ -1254,6 +1251,9 @@ class Config:
 
     @dbpath.setter
     def dbpath(self, value):
+        print(
+            f"{datetime.datetime.now()}: dbpath setter {value}"
+        )
         self._dbpath = value
         if value:
             # importing here to avoid circular dependency
