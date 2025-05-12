@@ -1251,16 +1251,13 @@ class Config:
 
     @dbpath.setter
     def dbpath(self, value):
-        print(
-            f"{datetime.datetime.now()}: dbpath setter {value}"
-        )
+        print(f"{datetime.datetime.now()}: dbpath setter {value}")
         self._dbpath = value
         if value:
             # importing here to avoid circular dependency
             import mlrun.db
-            print(
-                f"{datetime.datetime.now()}: Loading dbpath {value}"
-            )
+
+            print(f"{datetime.datetime.now()}: Loading dbpath {value}")
 
             # It ensures that SSL verification is set before establishing a connection
             _configure_ssl_verification(self.httpdb.http.verify)
@@ -1411,9 +1408,7 @@ def _populate(skip_errors=False):
     with _load_lock:
         _do_populate(skip_errors=skip_errors)
 
-    print(
-        f"{datetime.datetime.now().isoformat()}: Configuration loaded successfully"
-    )
+    print(f"{datetime.datetime.now().isoformat()}: Configuration loaded successfully")
 
 
 def _do_populate(env=None, skip_errors=False):

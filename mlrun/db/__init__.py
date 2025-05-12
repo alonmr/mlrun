@@ -13,7 +13,11 @@
 # limitations under the License.
 from os import environ
 
-from .base import RunDBError, RunDBInterface  # noqa
+# import if typecheck
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from mlrun.db import RunDBInterface
 
 
 def get_or_set_dburl(default=""):
@@ -25,7 +29,7 @@ def get_or_set_dburl(default=""):
     return config.dbpath
 
 
-def get_run_db(url="", secrets=None, force_reconnect=False) -> RunDBInterface:
+def get_run_db(url="", secrets=None, force_reconnect=False) -> "RunDBInterface":
     """Returns the runtime database"""
     # import here to avoid circular import
     import mlrun.db.factory
