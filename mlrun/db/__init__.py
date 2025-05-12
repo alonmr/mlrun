@@ -13,11 +13,12 @@
 # limitations under the License.
 from os import environ
 
-from ..config import config
 from .base import RunDBError, RunDBInterface  # noqa
 
 
 def get_or_set_dburl(default=""):
+    from ..config import config
+
     if not config.dbpath and default:
         config.dbpath = default
         environ["MLRUN_DBPATH"] = default
